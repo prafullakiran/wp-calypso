@@ -38,8 +38,8 @@ module.exports = function() {
 		page( '/read/post/feed/:feed_id/:post_id', controller.legacyRedirects );
 		page( '/read/feeds/:feed/posts/:post',
 			controller.updateLastRoute,
-			config.isEnabled( 'reader/full-post-redesign' ) ? controller.unmountSidebar : controller.sidebar,
-			config.isEnabled( 'reader/full-post-redesign' ) ? controller.feedPost : controller.feedPostOld );
+			config.isEnabled( 'reader/refresh-2016-07' ) ? controller.unmountSidebar : controller.sidebar,
+			config.isEnabled( 'reader/refresh-2016-07' ) ? controller.feedPost : controller.feedPostOld );
 		page.exit( '/read/feeds/:feed/posts/:post', controller.resetTitle );
 
 		// Blog stream
@@ -51,8 +51,8 @@ module.exports = function() {
 		page( '/read/post/id/:blog_id/:post_id', controller.legacyRedirects );
 		page( '/read/blogs/:blog/posts/:post',
 			controller.updateLastRoute,
-			config.isEnabled( 'reader/full-post-redesign' ) ? controller.unmountSidebar : controller.sidebar,
-			config.isEnabled( 'reader/full-post-redesign' ) ? controller.blogPost : controller.blogPostOld );
+			config.isEnabled( 'reader/refresh-2016-07' ) ? controller.unmountSidebar : controller.sidebar,
+			config.isEnabled( 'reader/refresh-2016-07' ) ? controller.blogPost : controller.blogPostOld );
 		page.exit( '/read/blogs/:blog/posts/:post', controller.resetTitle );
 	}
 

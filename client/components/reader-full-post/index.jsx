@@ -17,7 +17,7 @@ import { setSection } from 'state/ui/actions';
 export class FullPostView extends React.Component {
 
 	componentWillMount() {
-		this.props.setSection( { hasSidebar: false } );
+
 	}
 
 	render() {
@@ -45,11 +45,21 @@ export class FullPostFluxContainer extends React.Component {
 	}
 
 	getStateFromStores( props = this.props ) {
-
+		return {
+			post: null,
+			site: null,
+			feed: null
+		};
 	}
 
 	componentWillMount() {
-
+		// false won't change the section, we just want to remove the sidebar
+		// We can't remove the sidebar the usual way, by using a section in the section config,
+		// because full post lives at a dynamic path whose prefix is shared by sections that may want a sidebar
+		//
+		// if we decide to remove the sidebar on site / feed listings, then we _can_ use a section, but we'll have
+		// to make secondary dependant on the feature flag...
+		this.props.setSection( false, { hasSidebar: false } );
 	}
 
 	componentWillReceiveProps( nextProps ) {
