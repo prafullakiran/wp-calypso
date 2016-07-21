@@ -30,6 +30,7 @@ import FeedError from 'reader/feed-error';
 import { getCurrentUser } from 'state/current-user/selectors';
 import { requestGraduate } from 'state/reader/start/actions';
 import { isRequestingGraduation } from 'state/reader/start/selectors';
+import ReaderFullPost from 'components/reader-full-post';
 
 const analyticsPageTitle = 'Reader';
 
@@ -359,8 +360,7 @@ module.exports = {
 	},
 
 	feedPost: function( context ) {
-		var FullPostDialog = require( 'components/reader-full-post' ),
-			feedId = context.params.feed,
+		var feedId = context.params.feed,
 			postId = context.params.post,
 			basePath = '/read/feeds/:feed_id/posts/:feed_item_id',
 			fullPageTitle = analyticsPageTitle + ' > Feed Post > ' + feedId + ' > ' + postId;
@@ -369,19 +369,19 @@ module.exports = {
 
 		trackPageLoad( basePath, fullPageTitle, 'full_post' );
 
-		ReactDom.render(
-			React.createElement( ReduxProvider, { store: context.store },
-				React.createElement( FullPostDialog, {
-					feedId: feedId,
-					postId: postId,
-					setPageTitle: setPageTitle,
-					onClose: function() {
-						page.back( context.lastRoute || '/' );
-					},
-					onClosed: removeFullPostDialog,
-					onPostNotFound: renderPostNotFound
-				} )
-			),
+		function closer() {
+			page.back( context.lastRoute || '/' );
+		}
+
+		ReactDom.render( (
+			<ReduxProvider store={ context.store }>
+				<ReaderFullPost
+					feedId={ feedId }
+					postId={ postId }
+					setPageTitle={ setPageTitle }
+					onClose={ closer }
+					onPostNotFound={ renderPostNotFound } />
+			</ReduxProvider> ),
 			document.getElementById( 'primary' )
 		);
 		defer( function() {

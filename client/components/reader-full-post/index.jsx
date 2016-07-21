@@ -2,6 +2,8 @@
  * External Dependencies
  */
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 /**
  * Internal Dependencies
@@ -9,16 +11,12 @@ import React from 'react';
 import Main from 'components/main';
 import StickyPanel from 'components/sticky-panel';
 import Gridicon from 'components/gridicon';
+import { setSection } from 'state/ui/actions';
 
-export default class FullPostContainer extends React.Component {
+export class FullPostContainer extends React.Component {
 
 	componentWillMount() {
-		document.getElementsByClassName( 'layout' )[ 0 ].classList.add( 'has-no-sidebar' );
-	}
-
-	componentWillUnmount() {
-		// this may be too late?
-		document.getElementsByClassName( 'layout' )[ 0 ].classList.remove( 'has-no-sidebar' );
+		this.props.setSection( { hasSidebar: false } );
 	}
 
 	render() {
@@ -35,3 +33,14 @@ export default class FullPostContainer extends React.Component {
 		);
 	}
 }
+
+export default connect(
+	state => {
+		return { post: { ID: 1 } };
+	},
+	dispatch => {
+		return bindActionCreators( {
+			setSection
+		}, dispatch );
+	}
+)( FullPostContainer );
