@@ -13,6 +13,7 @@ import { get } from 'lodash';
  * Internal dependencies
  */
 import FacebookPreview from 'components/seo/facebook-preview';
+import TwitterPreview from 'components/seo/twitter-preview';
 import SearchPreview from 'components/seo/search-preview';
 import VerticalMenu from 'components/vertical-menu';
 import { SocialItem } from 'components/vertical-menu/items';
@@ -39,6 +40,26 @@ const PreviewFacebook = site => (
 			title={ site.name }
 			url={ site.URL }
 			type="article"
+			description={ site.description }
+			image={ `${ get( site, 'icon.img', '//gravatar.com/avatar/' ) }?s=512` }
+		/>
+	</div>
+);
+
+const PreviewTwitter = site => (
+	<div>
+		<TwitterPreview
+			title={ site.name }
+			url={ site.URL }
+			type="summary"
+			description={ site.description }
+			image={ `${ get( site, 'icon.img', '//gravatar.com/avatar/' ) }?s=512` }
+		/>
+		<div style={ { marginBottom: '2em' } } />
+		<TwitterPreview
+			title={ site.name }
+			url={ site.URL }
+			type="large_image_summary"
 			description={ site.description }
 			image={ `${ get( site, 'icon.img', '//gravatar.com/avatar/' ) }?s=512` }
 		/>
@@ -94,7 +115,8 @@ export class SeoPreviewPane extends PureComponent {
 				<div className="web-preview__seo-preview-pane__preview">
 					{ get( {
 						google: GooglePreview( site ),
-						facebook: PreviewFacebook( site )
+						facebook: PreviewFacebook( site ),
+						twitter: PreviewTwitter( site )
 					}, selectedService ) }
 				</div>
 			</div>
