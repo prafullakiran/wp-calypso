@@ -18,7 +18,8 @@ const tours = {
 		meta: {
 			version: '20160601',
 			path: '/',
-			context: isNewUser,
+			// don't enable this in production (yet)
+			context: ( state ) => 'production' !== config( 'env' ) && isNewUser( state ),
 		},
 		init: {
 			text: i18n.translate( "{{strong}}Need a hand?{{/strong}} We'd love to show you around the place, and give you some ideas for what to do next.", {
