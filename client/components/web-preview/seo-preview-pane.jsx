@@ -12,6 +12,7 @@ import { get } from 'lodash';
 /**
  * Internal dependencies
  */
+import FacebookPreview from 'components/seo/facebook-preview';
 import SearchPreview from 'components/seo/search-preview';
 import VerticalMenu from 'components/vertical-menu';
 import { SocialItem } from 'components/vertical-menu/items';
@@ -23,6 +24,26 @@ const GooglePreview = site =>
 		url={ site.URL }
 		snippet={ site.description }
 	/>;
+
+const PreviewFacebook = site => (
+	<div>
+		<FacebookPreview
+			title={ site.name }
+			url={ site.URL }
+			type="website"
+			description={ site.description }
+			image={ `${ get( site, 'icon.img', '//gravatar.com/avatar/' ) }?s=512` }
+		/>
+		<div style={ { marginBottom: '2em' } } />
+		<FacebookPreview
+			title={ site.name }
+			url={ site.URL }
+			type="article"
+			description={ site.description }
+			image={ `${ get( site, 'icon.img', '//gravatar.com/avatar/' ) }?s=512` }
+		/>
+	</div>
+);
 
 export class SeoPreviewPane extends PureComponent {
 	constructor( props ) {
@@ -72,7 +93,8 @@ export class SeoPreviewPane extends PureComponent {
 				</div>
 				<div className="web-preview__seo-preview-pane__preview">
 					{ get( {
-						google: GooglePreview( site )
+						google: GooglePreview( site ),
+						facebook: PreviewFacebook( site )
 					}, selectedService ) }
 				</div>
 			</div>
